@@ -17,7 +17,9 @@ links = [
 import os
 
 # Directory path to save the downloaded files
-directory = 'downloads'
+cur_dir = os.path.dirname(os.path.abspath(__file__))
+
+directory = os.path.join(cur_dir, 'data/minipile')
 
 # Create the directory if it doesn't exist
 os.makedirs(directory, exist_ok=True)

@@ -2,22 +2,22 @@ import os
 import pyarrow.parquet as pq
 import jsonlines
 import json
-# Directory path containing the Parquet files
-# directory = 'data'
-directory = '/mnt/space/ivan/transformers/datasets/minipile/data'
+
+cur_dir = os.path.dirname(os.path.abspath(__file__))
+minipile_dir = os.path.join(cur_dir, '../../datasets/data/minipile/')
 
 splits = ['validation', 'test']
 # Open the JSONL file in write mode
 for split in splits:
 
     
-    output_file = f'{split}.jsonl'
+    output_file = os.path.join(cur_dir, f'{split}.jsonl')
     with jsonlines.open(output_file, mode='w') as writer:
         # Iterate over each file in the directory
-        for filename in os.listdir(directory):
+        for filename in os.listdir(minipile_dir):
             if split in filename and filename.endswith('.parquet'):
                 # Read the Parquet file
-                file_path = os.path.join(directory, filename)
+                file_path = os.path.join(minipile_dir, filename)
                 table = pq.read_table(file_path)
 
                 # Convert the Parquet table to a list of dictionaries
@@ -29,11 +29,13 @@ for split in splits:
 
 init_inds = {}
 
-train_file = 'train.jsonl'
-init_file = 'init.jsonl'
+train_file = os.path.join(cur_dir, 'train.jsonl')
+init_file = os.path.join(cur_dir, 'init.jsonl')
 
-if os.path.exists('init_inds.json'):
-    with open('init_inds.json', 'r') as f:
+inds_path = os.path.join(cur_dir, 'init_inds.json')
+
+if os.path.exists(inds_path):
+    with open(inds_path, 'r') as f:
         init_inds = json.load(f)
 
 from sklearn.model_selection import train_test_split
@@ -53,7 +55,7 @@ train_files = ['train-00001-of-00012-2bb9d088068a84c9.parquet',
 
 with jsonlines.open(train_file, mode='w') as train_writer, jsonlines.open(init_file, mode='w') as init_writer:
     for filename in train_files:
-        file_path = os.path.join(directory, filename)
+        file_path = os.path.join(minipile_dir, filename)
         table = pq.read_table(file_path)
         records = table.to_pandas()
 
@@ -74,6 +76,6 @@ with jsonlines.open(train_file, mode='w') as train_writer, jsonlines.open(init_f
         for record in init.to_dict(orient='records'):
             init_writer.write(record)
 
-if not os.path.exists('init_inds.json'):
-    with open('init_inds.json', 'w') as f:
+if not os.path.exists(inds_path):
+    with open(inds_path, 'w') as f:
         json.dump(init_inds, f)

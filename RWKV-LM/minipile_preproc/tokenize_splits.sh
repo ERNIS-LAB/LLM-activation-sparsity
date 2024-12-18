@@ -1,6 +1,6 @@
-splits=(validation test train init)
+mkdir -p tokenized
 
-# python3 splits_to_jsonl.py
+splits=(validation test init) # add train here if you want to tokenize the training data
 
 for split in "${splits[@]}"; do
     echo "Tokenizing $split"

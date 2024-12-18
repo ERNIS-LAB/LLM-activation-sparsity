@@ -1,0 +1,15 @@
+--extra-index-url https://download.pytorch.org/whl/cu121
+pyarrow
+jsonlines
+pandas
+scikit-learn
+torch 
+torchvision
+torchaudio
+tokenizers
+lm-dataformat
+ftfy
+pytorch_lightning==1.9.5
+deepspeed==0.14.4
+numpy >=1.17.2, <1.27.0
+lm_eval==0.4.2

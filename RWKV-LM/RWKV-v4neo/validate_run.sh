@@ -1,21 +1,20 @@
-WORK_DIR=/mnt/space/ivan/transformers/rwkv/RWKV-LM
+WORK_DIR=..
 # WORK_DIR=/imec/other/seneca/knunya27/rwkv/RWKV-LM
 # MODEL_PATH=$WORK_DIR/checkpoints/RWKV-4-Pile-169M-20220807-8023.pth
 # MODEL_PATH=$WORK_DIR/checkpoints/RWKV-4-Pile-430M.pth
 # MODEL_PATH=$WORK_DIR/checkpoints/RWKV-4-Pile-3B.pth
-MODEL_PATH=$WORK_DIR/checkpoints/RWKV-4-Pile-1B5.pth
-# MODEL_PATH=$WORK_DIR/RWKV-v4neo/experiments/topk_init/RWKV-4-Pile-3B_sparse_topk-start_0.9-step_linear-loss_inc_1.0005_hs.pth
-# MODEL_PATH=$WORK_DIR/RWKV-v4neo/experiments/topk_init/RWKV-4-Pile-1B5_sparse_topk-start_0.9-step_linear_hs.pth
-# MODEL_PATH=$WORK_DIR/RWKV-v4neo/experiments/train/sparsing_fn_hardshrink--Frz_excl_thresh/rwkv-80.pth
-# DATA_PATH=$WORK_DIR/minipile_preproc/tokenized/test_text_document
-DATA_PATH=$WORK_DIR/minipile_preproc/tokenized/validation_text_document
+# MODEL_PATH=$WORK_DIR/checkpoints/RWKV-4-Pile-1B5.pth
+
+MODEL_PATH=$WORK_DIR/RWKV-v4neo/experiments/topk_init/RWKV-4-Pile-1B5_sparse_topk-start_0.9-step_linear-loss_inc_1.0005_hs.pth
+DATA_PATH=$WORK_DIR/minipile_preproc/tokenized/test_text_document
+# DATA_PATH=$WORK_DIR/minipile_preproc/tokenized/validation_text_document
 
 python validate.py --load_model $MODEL_PATH --random_seed 42\
   --data_file $DATA_PATH --data_type "binidx" --vocab_size 50277 \
   --micro_bsz 24 \
     --accelerator gpu --devices 1 --precision bf16 --strategy deepspeed_stage_2 --random_seed 42 \
-    --sparsity '{}' # for sparsity calc without sparsity
-    # --sparsity '{"sparsing_fn": "hardshrink"}' # for hardshrink
+    --sparsity '{"sparsing_fn": "hardshrink"}' # for hardshrink
+    # --sparsity '{}' # for sparsity calc without sparsity
     # --sparsity '{"sparsing_fn": "topk", "topk_pc": 0.6}' # for topk
     # --topk_pc 0.6
 #   --wandb "trial_ft" --proj_dir "out" \
