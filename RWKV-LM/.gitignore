@@ -15,8 +15,8 @@ tools/
 *.idx
 *.bin
 *.jsonl
-minipile_preproc/json2binidx_tool/
-minipile_preproc/tokenized/
+minipile_preprocessing/json2binidx_tool/
+minipile_preprocessing/tokenized/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

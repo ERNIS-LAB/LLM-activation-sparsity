@@ -101,18 +101,12 @@ if __name__ == "__main__":
 
         model = RWKV(args)
 
-        # print({ k: v.item() for k, v in load_dict.items() if k.split('.')[-1] == 'k'})
-        
         if hasattr(args, 'sparsity'):
             print(f"Sparsity: {args.sparsity}")
             model.load_state_dict(load_dict, strict=False)
         else:
             model.load_state_dict(load_dict)
-        
-        # print({k[:k.rfind('.')]: v for k, v in load_dict.items() if k.split('.')[-1] == 'thresholds'})
-        # print(load_dict)
-        # print(model.blocks[0])
-        
+
         return trainer.validate(model, dataloaders=dataloader, verbose=False)[0]
     
     results = validate_model(args, load_dict, trainer, data_loader)

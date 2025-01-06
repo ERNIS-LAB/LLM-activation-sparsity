@@ -1,3 +1,5 @@
+# rwkw packages
+
 --extra-index-url https://download.pytorch.org/whl/cu121
 pyarrow
 jsonlines
@@ -13,3 +15,7 @@ pytorch_lightning==1.9.5
 deepspeed==0.14.4
 numpy >=1.17.2, <1.27.0
 lm_eval==0.4.2
+
+# opt packages 
+omegaconf==2.1.1
+boto3==1.34.75
